@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import {
   AppBar,
   Box,
@@ -9,11 +9,12 @@ import {
   Tabs,
   Tab
 } from '@mui/material'
+import { login,logout } from '../store'
 import { Link } from 'react-router-dom'
 
 const Header = () => {
   const [value, setValue] = useState(0)
-
+  const dispatch = useDispatch()
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   return (
     <AppBar sx={{
@@ -44,6 +45,7 @@ const Header = () => {
             </Button>
           </>}
           {isLoggedIn && <Button
+            onClick={() =>dispatch(logout())}
             LinkComponent={Link} to="/auth"
             variant='contained'
             sx={{ margin: 1, borderRadius: 10 }}

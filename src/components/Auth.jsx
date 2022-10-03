@@ -1,31 +1,50 @@
 import React, { useState } from 'react'
 import { Box, Button, TextField, Typography } from '@mui/material'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { login, logout } from '../store'
+import { useNavigate } from 'react-router-dom'
 
 const Auth = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [inputs, setInputs] = useState({
     name: '', email: '', password: ''
   })
   const [isSignup, setIsSignup] = useState()
-
+  let data;
   const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value
     }))
   }
-  const sendRequest = async()=>{
-   const res = await axios.post("http://localhost:3001/api/user/login",{
+  const sendRequest = async (type = "login") => {
+    const res = await axios.post(`http://localhost:3001/api/user/${type}`, {
+      name: inputs.name,
       email: inputs.email,
       password: inputs.password,
-    }).catch(err=>console.log(err))
+    }).catch(err => console.log(err))
 
     const data = await res.data
+    console.log(data)
     return data;
   }
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault()
     console.log(inputs)
+    if (isSignup) {
+      sendRequest("signup")
+        .then((data) => localStorage.setItem("userId", data.user._id))
+        .then(() => dispatch(login()))
+        .then(() => navigate("/blogs"))
+    } else {
+      sendRequest()
+        .then((data) => localStorage.setItem("userId", data.user._id))
+        .then(() => dispatch(login()))
+        .then(() => navigate("/blogs"))
+    }
+
     sendRequest()
   }
   return (

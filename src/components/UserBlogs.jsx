@@ -1,8 +1,18 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect } from 'react'
 
 const UserBlogs = () => {
+  const id = localStorage.getItem("userId")
+const sendRequest = async()=>{
+  const res = await axios.get("http://localhost:3001/api/user")
+}
+
+  useEffect(() => {
+
+  }, [])
+
   return (
-    <div><h1>UserBlogs</h1></div>
+    <div>UserBlogs</div>
   )
 }
 
