@@ -18,7 +18,6 @@ const Blogs = () => {
     sendRequest().then(data => setBlogs(data.blogs))
 
   }, [])
-
   return (
     <div>
       {blogs && blogs.map((blog, index) => (
@@ -26,7 +25,7 @@ const Blogs = () => {
         key={index}
           title={blog.title}
           description={blog.description}
-          imageURL={blog.imageUrl}
+          image={blog.image}
           userName={blog.user.name}
         />
       )
