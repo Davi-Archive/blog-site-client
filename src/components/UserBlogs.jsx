@@ -7,7 +7,7 @@ const UserBlogs = () => {
   const id = localStorage.getItem("userId")
 
   const sendRequest = async () => {
-    const res = await axios.get(`http://localhost:3001/api/blog/user/${id}`)
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/blog/user/${id}`)
       .catch(err => console.log(err))
     const data = await res.data.blogs
     return data;

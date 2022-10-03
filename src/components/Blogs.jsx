@@ -6,7 +6,7 @@ import Blog from './Blog'
 
 const Blogs = () => {
   const sendRequest = async () => {
-    const res = await axios.get("http://localhost:3001/api/blog/")
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/blog/`)
       .catch(err => console.log(err))
     const data = res.data;
     console.log(data)

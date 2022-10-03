@@ -26,7 +26,7 @@ export const Blog = ({ id, title, description, image, userName, date, isUser }) 
             .then(() => navigate("/blogs"))
     }
     const deleteRequest = async () => {
-        const res = await axios.delete(`http://localhost:3001/api/blog/${id}`)
+        const res = await axios.delete(`${import.meta.env.VITE_API_URL}/api/blog/${id}`)
             .catch(err => console.log(err))
         const data = await res.data;
         return data;

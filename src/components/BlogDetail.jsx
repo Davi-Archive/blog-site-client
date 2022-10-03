@@ -26,7 +26,7 @@ const BlogDetail = () => {
   }
   const id = useParams().id
   const fetchDetails = async () => {
-    const res = await axios.get(`http://localhost:3001/api/blog/${id}`)
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/blog/${id}`)
       .catch(err => console.log(err))
     const data = await res.data
     return data
@@ -44,7 +44,7 @@ const BlogDetail = () => {
 
 
   const sendRequest = async () => {
-    const res = await axios.put(`http://localhost:3001/api/blog/update/${id}`, {
+    const res = await axios.put(`${import.meta.env.VITE_API_URL}/api/blog/update/${id}`, {
       title: inputs.title,
       description: inputs.description,
       image: inputs.image
