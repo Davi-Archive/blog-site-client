@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import Auth from "./components/Auth"
 import Header from "./components/Header"
 import Blogs from "./components/Blogs"
@@ -12,11 +12,14 @@ import { useEffect } from "react"
 import {login} from './store'
 
 function App() {
+  const navigate = useNavigate()
   const dispath = useDispatch()
   const isLoggedIn = useSelector(state => state.isLoggedIn)
   useEffect(()=>{
     if(localStorage.getItem("userId")){
       dispath(login())
+    }else{
+      navigate("/auth")
     }
   },[dispath])
   return (
