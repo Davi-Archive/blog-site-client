@@ -17,14 +17,16 @@ const UserBlogs = () => {
     sendRequest().then((data) => setBlogs(data.blogs))
   }, [])
   return (
-    <div>
+        <div>
       {blogs && blogs.map((blog, index) => (
         <Blog
           key={index}
+          isUser={true}
+          id={blog._id}
           title={blog.title}
           description={blog.description}
           image={blog.image}
-          userName={blog.user.name}
+          date={blog.updatedAt}
         />
       )
       )}

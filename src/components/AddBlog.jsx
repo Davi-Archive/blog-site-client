@@ -1,6 +1,7 @@
 import { Box, Button, InputLabel, TextField, Typography } from '@mui/material'
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 
 const labelStyles = { mb: 1, mt: 2, fontSize: '24px', fontWeight: 'bold' }
 
@@ -10,6 +11,7 @@ const AddBlog = () => {
     description: '',
     image: ''
   })
+  const navigate = useNavigate()
   const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
@@ -19,16 +21,18 @@ const AddBlog = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(inputs)
-    sendRequest().then((data)=>console.log(data))
+    sendRequest().then((data) => console.log(data))
+      .then(() => navigate("/blogs"))
+      .then(() => navigate("/myBlogs"))
   }
 
-  const sendRequest = async() => {
-    const res = await axios.post('http://localhost:3001/api/blog/add',{
+  const sendRequest = async () => {
+    const res = await axios.post('http://localhost:3001/api/blog/add', {
       title: inputs.title,
       description: inputs.description,
       image: inputs.image,
       user: localStorage.getItem("userId")
-    }).catch(err=>console.log(err))
+    }).catch(err => console.log(err))
     const data = await res.data
     return data
 

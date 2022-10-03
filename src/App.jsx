@@ -7,11 +7,18 @@ import UserBlogs from "./components/UserBlogs"
 import BlogDetail from "./components/BlogDetail"
 import AddBlog from "./components/AddBlog"
 import { Box } from "@mui/material"
-import { useSelector } from "react-redux"
-
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect } from "react"
+import {login} from './store'
 
 function App() {
+  const dispath = useDispatch()
   const isLoggedIn = useSelector(state => state.isLoggedIn)
+  useEffect(()=>{
+    if(localStorage.getItem("userId")){
+      dispath(login())
+    }
+  },[dispath])
   return (
     <React.Fragment>
       <header>
@@ -19,14 +26,19 @@ function App() {
       </header>
 
       <main>
-        <Box sx={{marginTop: 9}}>
-            <Routes>
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/blogs" element={<Blogs />} />
-              <Route path="/myBlogs" element={<UserBlogs />} />
-              <Route path="/myBlogs/:id" element={<BlogDetail />} />
-              <Route path="/blogs/add" element={<AddBlog />} />
-            </Routes>
+        <Box sx={{ marginTop: 9 }}>
+
+          <Routes>
+            {!isLoggedIn ? <Route path="/auth" element={<Auth />} /> :
+              <>
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/blogs" element={<Blogs />} />
+                <Route path="/myBlogs" element={<UserBlogs />} />
+                <Route path="/myBlogs/:id" element={<BlogDetail />} />
+                <Route path="/blogs/add" element={<AddBlog />} />
+              </>
+            }
+          </Routes>
         </Box>
       </main>
     </React.Fragment>

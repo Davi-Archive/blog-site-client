@@ -5,10 +5,32 @@ import {
     CardMedia,
     Avatar,
     CardContent,
-    Typography
+    Typography,
+    IconButton,
+    Box
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
-export const Blog = ({ title, description, image, userName }) => {
+export const Blog = ({ id, title, description, image, userName, date, isUser }) => {
+    const dateTransformed = new Date(date).toLocaleString('pt-BR')
+    const navigate = useNavigate()
+    const handleEdit = () => {
+        navigate(`/myBlogs/${id}`)
+    }
+    const handleDelete = () => {
+        deleteRequest().then(data => console.log(data))
+            .then(() => navigate("/myBlogs"))
+            .then(() => navigate("/blogs"))
+    }
+    const deleteRequest = async () => {
+        const res = await axios.delete(`http://localhost:3001/api/blog/${id}`)
+            .catch(err => console.log(err))
+        const data = await res.data;
+        return data;
+    }
     return (
         <div>
             {""}
@@ -22,14 +44,29 @@ export const Blog = ({ title, description, image, userName }) => {
                     boxShadow: "10px 10px 20px #ccc"
                 }
             }}>
+                {isUser && (
+                    <Box display="flex">
+                        <IconButton
+                            sx={{ marginLeft: "auto" }}
+                            onClick={handleEdit}
+                        >
+                            <EditIcon color="warning" />
+                        </IconButton>
+                        <IconButton
+                            onClick={handleDelete}
+                        ><DeleteForeverIcon color="error" />
+                        </IconButton>
+                    </Box>)
+
+                }
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">
-                            <b>{userName}</b>{": "} {userName}
+                            {userName ? userName.charAt(0) : ""}
                         </Avatar>
                     }
                     title={title}
-                    subheader="September 14, 2016"
+                    subheader={dateTransformed}
                 />
                 <CardMedia
                     component="img"
@@ -37,6 +74,8 @@ export const Blog = ({ title, description, image, userName }) => {
                     image={image}
                     alt={title}
                 />
+                <br />
+                <br />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
                         {description}
