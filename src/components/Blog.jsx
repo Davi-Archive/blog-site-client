@@ -16,7 +16,7 @@ import axios from 'axios'
 
 export const Blog = ({ id, title, description, image, userName, date, isUser }) => {
     const dateTransformed = new Date(date).toLocaleString('pt-BR')
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const handleEdit = () => {
         navigate(`/myBlogs/${id}`)
     }
