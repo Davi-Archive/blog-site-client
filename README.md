@@ -56,4 +56,4 @@ davi4alves@gmail.com
 
 
 
-[View the Live Website]:[https://portfolio-en-client.vercel.app/](https://blog-site-client.vercel.app/)
+[View the Live Website]:https://blog-site-client.vercel.app/
